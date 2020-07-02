@@ -1,0 +1,6 @@
+.*/
+datasets_tse/
+2016*/
+__pycache__/
+*.bkp
+bw*.csv
