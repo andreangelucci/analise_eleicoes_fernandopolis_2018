@@ -6,7 +6,7 @@ def criar_cabelho():
     st.markdown('## na perspectiva de Fernandópolis')
     st.markdown(
         'Análise do perfil do eleitor fernandopolense baseado nas eleições de 2018.'
-    ) 
+    )
     st.markdown(
         'Fonte: [Tribunal Superior Eleitoral](http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1)'
     )
