@@ -1,3 +1,4 @@
-altair==4.1.0
 streamlit==0.61.0
 pandas==1.0.3
+altair==4.1.0
+pydeck==0.3.1
