@@ -34,6 +34,12 @@ turno = st.sidebar.selectbox(
     options=(1, 2),
     format_func=lambda o: 'Primeiro' if o == 1 else 'Segundo')
 
+st.sidebar.markdown('---')
+st.sidebar.markdown(
+    'Projeto desenvolvido por [André Angeluci](https://www.linkedin.com/in/andreangeluci/) ' \
+    'como desafio do programa AceleraDev Data Science, da [Codenation](https://www.codenation.dev/).')
+st.sidebar.markdown('Código-fonte disponível no [GitHub](https://github.com/AndreAngelucci/analise_eleicoes_fernandopolis_2018)')
+
 # carrega o dataset de acordo com o tipo de analise
 votacao_escola = escola_por_presidente if tipo_analise == 0 else escola_por_governador
 votacao_candidato = presidente_por_escola if tipo_analise == 0 else governador_por_escola
@@ -47,9 +53,11 @@ criar_cabelho()
 # resumo dos eleitores
 st.markdown('___')
 resumo_eleitores = pd.read_csv('datasets/resumo_eleitores.csv', encoding='latin1', index_col=0)
+st.markdown('## {}º turno da eleição para {}'.format(
+    turno, 'presidente' if tipo_analise == 0 else 'governador de SP'))
 st.markdown('### **{}** eleitores estavam aptos para votar no {}º turno das eleições de 2018'.format(
     resumo_eleitores.loc[turno]['eleitores_aptos'], turno))
-st.markdown('mas **{:d}** não compareceram. Portanto, **{:d}** participaram das eleições.'.format(
+st.markdown('mas **{:d}** não compareceram. Portanto, **{:d}** pessoas participaram das eleições.'.format(
     resumo_eleitores.loc[turno]['eleitores_faltaram'], resumo_eleitores.loc[turno]['eleitores_compareceram']))
 st.markdown('Total de votos em branco: **{}**'.format(votacao_candidato.loc[1, 'Branco']['voto_qtd'].sum()))
 st.markdown('Total de votos nulos: **{}**'.format(votacao_candidato.loc[1, 'Nulo']['voto_qtd'].sum()))
@@ -82,7 +90,6 @@ candidato = st.selectbox(
     format_func=lambda c: '{} ({} votos)'.format(c, candidatos_disponiveis[c]))
 # total de votos do candidato
 total = votacao_candidato.loc[turno, candidato]['voto_qtd'].sum()
-st.markdown(f'** O candidato {candidato} teve {total} votos **')
 # votacao por candidato/escola para o mapa
 escolas = pd.read_csv('datasets/escolas.csv', encoding='latin1', index_col=0)
 votacao_lat_lon = pd.DataFrame.join(votacao_candidato.loc[turno, candidato], escolas).reset_index()
@@ -114,7 +121,7 @@ if candidato:
     mapa = pdk.ViewState(
         latitude=-20.226723, longitude=-50.275769,
         zoom=10, bearing=0, pitch=0)
-    st.markdown('O tamanho dos pontos no mapa de Fernandópolis determina a quantidade de votos do candidato:')
+    st.markdown('O tamanho dos pontos no mapa determina a quantidade de votos do candidato em cada região de Fernandópolis:')
     st.pydeck_chart(
         pdk.Deck(
             layers=[pontos],
